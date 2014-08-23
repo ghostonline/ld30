@@ -5,15 +5,28 @@ public class Movable : MonoBehaviour {
 
 	public float jumpVelocity = 1f;
 	public float horizontalVelocity = 1f;
+    public float maxWallSlideVelocity = -1f;
     public int maxJumpFrames = 10;
     public int lastMinuteJumpTimeout = 2;
 
 	public float axisDeadzone = 0.01f;
 
+    public CollideTrigger leftWallJumpLock;
+    public CollideTrigger rightWallJumpLock;
+
     public GameObject[] jumpLocks;
 
     int jumpTimeout;
     int lastMinuteJump;
+    bool wallHug;
+
+    void Awake()
+    {
+        if (maxWallSlideVelocity > 0)
+        {
+            Debug.LogWarning("Wall slide velocity is not angled downwards");
+        }
+    }
 
 	void FixedUpdate () {
         var velocity = rigidbody2D.velocity;
@@ -23,10 +36,20 @@ public class Movable : MonoBehaviour {
 		if (!IsInDeadZone(horizontal))
         {
             velocity.x = horizontalVelocity * horizontal;
+            wallHug = (leftWallJumpLock.hasCollision && horizontal < 0) || (rightWallJumpLock.hasCollision && horizontal > 0);
         }
         else
         {
             velocity.x = 0;
+        }
+
+        if (wallHug && (leftWallJumpLock.hasCollision || rightWallJumpLock.hasCollision))
+        {
+            velocity.y = Mathf.Max(velocity.y, maxWallSlideVelocity);
+        }
+        else
+        {
+            wallHug = false;
         }
 
         // Vertical movement
