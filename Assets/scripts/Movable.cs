@@ -6,12 +6,14 @@ public class Movable : MonoBehaviour {
 	public float jumpVelocity = 1f;
 	public float horizontalVelocity = 1f;
     public int maxJumpFrames = 10;
+    public int lastMinuteJumpTimeout = 2;
 
 	public float axisDeadzone = 0.01f;
 
     public GameObject[] jumpLocks;
 
     int jumpTimeout;
+    int lastMinuteJump;
 
 	void FixedUpdate () {
         var velocity = rigidbody2D.velocity;
@@ -30,10 +32,18 @@ public class Movable : MonoBehaviour {
         // Vertical movement
         var vertical = Input.GetAxis ("Jump");
         var onGround = IsOnGround ();
+        if (onGround)
+        {
+            lastMinuteJump = lastMinuteJumpTimeout;
+        }
+        else
+        {
+            --lastMinuteJump;
+        }
 
         if (IsInDeadZone(vertical))
         {
-            if (onGround)
+            if (onGround || lastMinuteJump > 0)
             {
                 jumpTimeout = maxJumpFrames;
             }
