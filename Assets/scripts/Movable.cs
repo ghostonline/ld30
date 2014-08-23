@@ -5,11 +5,12 @@ public class Movable : MonoBehaviour {
 
 	public float jumpVelocity = 1f;
 	public float horizontalVelocity = 1f;
-    public float maxWallSlideVelocity = -1f;
+    public float horizontalAccelleration = 0.2f;
+    public float wallKickVelocity = 1f;
     public int maxJumpFrames = 10;
     public int lastMinuteJumpTimeout = 2;
 
-	public float axisDeadzone = 0.01f;
+	public float axisDeadzone = 0.001f;
 
     public CollideTrigger leftWallJumpLock;
     public CollideTrigger rightWallJumpLock;
@@ -18,39 +19,45 @@ public class Movable : MonoBehaviour {
 
     int jumpTimeout;
     int lastMinuteJump;
-    bool wallHug;
-
-    void Awake()
+    bool wallHug
     {
-        if (maxWallSlideVelocity > 0)
-        {
-            Debug.LogWarning("Wall slide velocity is not angled downwards");
-        }
+        get { return wallHugLeft || wallHugRight; }
     }
+    bool wallHugLeft;
+    bool wallHugRight;
+    bool wallJumpPrimed;
 
 	void FixedUpdate () {
         var velocity = rigidbody2D.velocity;
+        var onGround = IsOnGround ();
 
         // Horizontal movement simply based on axis
 		var horizontal = Input.GetAxis ("Horizontal");
-		if (!IsInDeadZone(horizontal))
+        var targetVelocity = horizontalVelocity * Mathf.Abs(horizontal);
+        var targetVelocityDirection = Mathf.Sign(horizontal);
+        if (onGround)
         {
-            velocity.x = horizontalVelocity * horizontal;
+            velocity.x = targetVelocity * targetVelocityDirection;
         }
-        else
+        else if (velocity.x * targetVelocityDirection < targetVelocity)
+        {
+            velocity.x += targetVelocity * horizontalAccelleration * targetVelocityDirection;
+
+        }
+
+        wallHugLeft = leftWallJumpLock.hasCollision;
+        wallHugRight = rightWallJumpLock.hasCollision;
+        if (wallHugLeft && velocity.x < 0)
+        {
+            velocity.x = 0;
+        }
+        if (wallHugRight && velocity.x > 0)
         {
             velocity.x = 0;
         }
 
-        wallHug = leftWallJumpLock.hasCollision || rightWallJumpLock.hasCollision;
-        if (wallHug)
-        {
-            velocity.y = Mathf.Max(velocity.y, maxWallSlideVelocity);
-        }
-
         // Vertical movement
         var vertical = Input.GetAxis ("Jump");
-        var onGround = IsOnGround ();
         if (onGround)
         {
             lastMinuteJump = lastMinuteJumpTimeout;
@@ -65,17 +72,34 @@ public class Movable : MonoBehaviour {
             if (onGround || lastMinuteJump > 0)
             {
                 jumpTimeout = maxJumpFrames;
+                wallJumpPrimed = false;
             }
             else
             {
                 jumpTimeout = 0;
             }
+
+            if (wallHug && !onGround)
+            {
+                wallJumpPrimed = true;
+            }
         }
 
-        if (vertical > axisDeadzone && jumpTimeout > 0)
+        if (vertical > axisDeadzone)
         {
-            velocity.y = jumpVelocity;
-            --jumpTimeout;
+            if (wallJumpPrimed && wallHug)
+            {
+                jumpTimeout = maxJumpFrames;
+                if (wallHugLeft) { velocity.x = wallKickVelocity; }
+                if (wallHugRight) { velocity.x = -wallKickVelocity; }
+                wallJumpPrimed = false;
+            }
+
+            if (jumpTimeout > 0)
+            {
+                velocity.y = jumpVelocity;
+                --jumpTimeout;
+            }
         }
 
         rigidbody2D.velocity = velocity;
