@@ -36,20 +36,16 @@ public class Movable : MonoBehaviour {
 		if (!IsInDeadZone(horizontal))
         {
             velocity.x = horizontalVelocity * horizontal;
-            wallHug = (leftWallJumpLock.hasCollision && horizontal < 0) || (rightWallJumpLock.hasCollision && horizontal > 0);
         }
         else
         {
             velocity.x = 0;
         }
 
-        if (wallHug && (leftWallJumpLock.hasCollision || rightWallJumpLock.hasCollision))
+        wallHug = leftWallJumpLock.hasCollision || rightWallJumpLock.hasCollision;
+        if (wallHug)
         {
             velocity.y = Mathf.Max(velocity.y, maxWallSlideVelocity);
-        }
-        else
-        {
-            wallHug = false;
         }
 
         // Vertical movement
