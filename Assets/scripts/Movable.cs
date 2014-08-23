@@ -7,8 +7,7 @@ public class Movable : MonoBehaviour {
 	public float horizontalVelocity = 1f;
     public int maxJumpFrames = 10;
 
-	public float horizontalAxisDeadzone = 0.1f;
-	public float verticalAxisDeadzone = 0.1f;
+	public float axisDeadzone = 0.01f;
 
     public GameObject[] jumpLocks;
 
@@ -17,8 +16,9 @@ public class Movable : MonoBehaviour {
 	void FixedUpdate () {
         var velocity = rigidbody2D.velocity;
 
+        // Horizontal movement simply based on axis
 		var horizontal = Input.GetAxis ("Horizontal");
-		if (Mathf.Abs (horizontal) > horizontalAxisDeadzone)
+		if (!IsInDeadZone(horizontal))
         {
             velocity.x = horizontalVelocity * horizontal;
         }
@@ -27,20 +27,26 @@ public class Movable : MonoBehaviour {
             velocity.x = 0;
         }
 
-        if (IsOnGround ())
+        // Vertical movement
+        var vertical = Input.GetAxis ("Jump");
+        var onGround = IsOnGround ();
+
+        if (IsInDeadZone(vertical))
         {
-            jumpTimeout = maxJumpFrames;
+            if (onGround)
+            {
+                jumpTimeout = maxJumpFrames;
+            }
+            else
+            {
+                jumpTimeout = 0;
+            }
         }
 
-        var vertical = Input.GetAxis ("Vertical");
-        if (vertical > verticalAxisDeadzone && jumpTimeout > 0f)
+        if (vertical > axisDeadzone && jumpTimeout > 0)
         {
             velocity.y = jumpVelocity;
             --jumpTimeout;
-        }
-        else
-        {
-            jumpTimeout = 0;
         }
 
         rigidbody2D.velocity = velocity;
@@ -62,5 +68,10 @@ public class Movable : MonoBehaviour {
         }
 
         return false;
+    }
+
+    bool IsInDeadZone(float value)
+    {
+        return Mathf.Abs (value) < axisDeadzone;
     }
 }
