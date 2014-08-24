@@ -10,11 +10,14 @@ public class PlatformSpawner : MonoBehaviour {
     public float maxPlatformInterval = 5f;
     public float minPlatformWidth = 100f;
     public float maxPlatformWidth = 1500f;
+    public float platformHeight = 100f;
+    public float flipChance = 0.3f;
+    public Transform[] spawnColumns;
 
     GameObject[] platforms;
     float spawnTimer;
     int poolIdx;
-    BoxCollider2D spawnSize;
+    int columnIdx;
 
 	// Use this for initialization
 	void Start () {
@@ -32,8 +35,6 @@ public class PlatformSpawner : MonoBehaviour {
             child.transform.parent = poolParentTransform;
             platforms[ii] = child;
         }
-
-        spawnSize = GetComponent<BoxCollider2D>();
 	}
 	
 	// Update is called once per frame
@@ -47,11 +48,46 @@ public class PlatformSpawner : MonoBehaviour {
             var width = Random.Range(minPlatformWidth, maxPlatformWidth);
             platform.SetActive(true);
             platform.rigidbody2D.velocity = new Vector2(0, -scrollSpeed);
-            var position = transform.TransformPoint(spawnSize.size * Random.value + spawnSize.center - spawnSize.size * 0.5f);
-            platform.transform.position = position;
-            platform.transform.localScale = new Vector3(width, minPlatformWidth, 0f);
+            columnIdx = GetRandomAdjacentColumn(columnIdx);
+            platform.transform.position = spawnColumns[columnIdx].position;
+            if (!ShouldFlip())
+            {
+                platform.transform.localScale = new Vector3(width, platformHeight, 0f);
+            }
+            else
+            {
+                platform.transform.localScale = new Vector3(platformHeight, width, 0f);
+            } 
         }
 	}
+
+    int GetRandomAdjacentColumn(int currentIdx)
+    {
+        int startIdx = currentIdx;
+        int options = 0;
+        if (currentIdx > 0)
+        {
+            --startIdx;
+            ++options;
+        }
+        if (currentIdx < spawnColumns.Length - 1)
+        {
+            ++options;
+        }
+
+        var targetIdx = Random.Range(startIdx, startIdx + options);
+        if (targetIdx == currentIdx)
+        {
+            ++targetIdx;
+        }
+
+        return targetIdx;
+    }
+
+    bool ShouldFlip()
+    {
+        return Random.value < flipChance;
+    }
 
     GameObject FindFreePlatform()
     {
