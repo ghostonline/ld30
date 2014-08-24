@@ -3,13 +3,17 @@ using System.Collections;
 
 public class Propelled : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
+    public float speed = 1f;
+    public Transform direction;
+
 	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate () {
+        var angle = direction.position - transform.position;
+        rigidbody2D.velocity = angle.normalized * speed;
 	}
+
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        gameObject.SetActive(false);
+    }
 }
