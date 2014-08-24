@@ -18,7 +18,7 @@ public class Damagable : MonoBehaviour {
 	void Start () {
         if (barTemplate == null || healthBarAnchor == null)
         {
-            Debug.LogWarning("Cannot create a health bar for damagable gameobject");
+            Debug.LogWarning("Cannot create a health bar for damagable gameobject: " + gameObject.name);
             return;
         }
 
@@ -49,7 +49,7 @@ public class Damagable : MonoBehaviour {
 
     void UpdateBar()
     {
-        if (!updateBar) { return; }
+        if (healthBar == null || !updateBar) { return; }
 
         var desiredValue = Mathf.Clamp01((float)currentHealth / (float)maxHealth);
         var diff = healthBar.value - desiredValue;
