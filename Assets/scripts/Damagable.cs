@@ -11,6 +11,8 @@ public class Damagable : MonoBehaviour {
 
     HealthBar healthBar;
     bool updateBar;
+    bool tookDamage;
+    bool wasHitInFrame;
 
 	// Use this for initialization
 	void Start () {
@@ -30,6 +32,23 @@ public class Damagable : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        UpdateBar();
+
+        if (wasHitInFrame)
+        {
+            wasHitInFrame = false;
+        }
+
+        if (tookDamage)
+        { 
+            wasHitInFrame = true;
+            tookDamage = false;
+        }
+
+	}
+
+    void UpdateBar()
+    {
         if (!updateBar) { return; }
 
         var desiredValue = Mathf.Clamp01((float)currentHealth / (float)maxHealth);
@@ -49,11 +68,18 @@ public class Damagable : MonoBehaviour {
         {
             updateBar = false;
         }
-	}
+    }
 
     public void ApplyDamage(int points)
     {
         currentHealth -= points;
         updateBar = true;
+        tookDamage = true;
     }
+
+    public bool WasHitInLastFrame()
+    {
+        return wasHitInFrame;
+    }
+
 }
