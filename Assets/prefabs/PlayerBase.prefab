@@ -199,6 +199,7 @@ GameObject:
   - 61: {fileID: 6100002}
   - 58: {fileID: 5800000}
   - 50: {fileID: 5000002}
+  - 114: {fileID: 11400010}
   m_Layer: 8
   m_Name: PlayerBase
   m_TagString: Untagged
@@ -592,6 +593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 400004}
   fireDirection: {fileID: 400002}
+  fireRate: 0
   bulletTemplate: {fileID: 100000}
   poolParent: {fileID: 0}
   poolSize: 100
@@ -654,6 +656,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5f5591e497f769428af418f5260cfbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 530b7ffacbc0eff4a9e12a83775c9433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &21200000
