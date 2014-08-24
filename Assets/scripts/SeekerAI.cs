@@ -5,10 +5,8 @@ public class SeekerAI : MonoBehaviour {
 
     const string PlayerTag = "Player";
 
-    public Damagable health;
     public RotateTween rotationAnimator;
     public Rigidbody2D mover;
-    public MultiEmitter explosionSystem;
 
     public float speed;
     public float telegraphRotationScale;
@@ -45,13 +43,6 @@ public class SeekerAI : MonoBehaviour {
             var lockProgressValue = lockProgress.Evaluate(1 - lockTimer / lockDuration);
             var scale = (telegraphRotationScale - 1) * lockProgressValue + 1;
             rotationAnimator.rotation = scale * idleRotation;
-        }
-
-        if (health.WasHitInLastFrame() && health.currentHealth <= 0)
-        {
-            explosionSystem.transform.position = transform.position;
-            explosionSystem.Play();
-            gameObject.SetActive(false);
         }
     }
 

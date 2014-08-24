@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400008}
+  - 114: {fileID: 11400010}
   m_Layer: 11
   m_Name: Seeker
   m_TagString: Untagged
@@ -61,7 +62,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 28.0193214, y: 15.5933619, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -156,10 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4b97f36c3e88244852962b73973321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 11400002}
   rotationAnimator: {fileID: 11400004}
   mover: {fileID: 5000000}
-  explosionSystem: {fileID: 0}
   speed: 30
   telegraphRotationScale: 10
   lockProgress:
@@ -178,6 +177,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   lockDuration: 3
+  breakFactor: .899999976
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -233,6 +233,19 @@ MonoBehaviour:
   shiver: {fileID: 11400006}
   damage: {fileID: 11400002}
   shiverTime: .25
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc586286297966942963b4234912b82b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 11400002}
+  explosionSystem: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
