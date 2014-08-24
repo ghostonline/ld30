@@ -14,6 +14,7 @@ public class SeekerAI : MonoBehaviour {
     public float telegraphRotationScale;
     public AnimationCurve lockProgress;
     public float lockDuration;
+    public float breakFactor = 0.9f;
 
     Vector3 idleRotation;
     float lockTimer;
@@ -62,7 +63,7 @@ public class SeekerAI : MonoBehaviour {
             if (Vector3.Dot(direction, mover.velocity) < 0)
             {
                 // Passed the target
-                mover.velocity = mover.velocity * 0.90f;
+                mover.velocity = mover.velocity * breakFactor;
                 if (mover.velocity.magnitude < 0.01f)
                 {
                     mover.velocity = Vector2.zero;
