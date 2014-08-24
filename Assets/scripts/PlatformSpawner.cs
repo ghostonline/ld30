@@ -13,9 +13,10 @@ public class PlatformSpawner : MonoBehaviour {
     public float platformHeight = 100f;
     public float flipChance = 0.3f;
     public Transform[] spawnColumns;
+    public Transform groundFloor;
 
     GameObject[] platforms;
-    float spawnTimer;
+    float nextSpawnHeight;
     int poolIdx;
     int columnIdx;
 
@@ -24,7 +25,7 @@ public class PlatformSpawner : MonoBehaviour {
         scrollSpeed = Mathf.Abs(scrollSpeed);
         if (poolSize <= 0) { poolSize = 10; }
         platforms = new GameObject[poolSize];
-        var poolParentTransform = transform;
+        var poolParentTransform = platformTemplate.transform.parent;
         var digits = Mathf.CeilToInt(Mathf.Log10(poolSize));
         platformTemplate.SetActive(false);
         string poolItemName = string.Format("{0}{{0:D0{1}}}", platformTemplate.name, digits);
@@ -35,29 +36,39 @@ public class PlatformSpawner : MonoBehaviour {
             child.transform.parent = poolParentTransform;
             platforms[ii] = child;
         }
+
+        SpawnPlatform(groundFloor.position, maxPlatformWidth, false);
+        nextSpawnHeight = GetNextSpawnHeight(groundFloor.position.y);
 	}
+
+    void SpawnPlatform(Vector3 pos, float width, bool flip)
+    {
+        var platform = FindFreePlatform();
+        platform.SetActive(true);
+        platform.transform.position = pos;
+        var scale = Vector3.zero;
+        if (!flip) { scale = new Vector3(width, platformHeight, 0f); }
+        else { scale = new Vector3(platformHeight, width, 0f); } 
+        platform.transform.localScale = scale;
+    }
+
+    float GetNextSpawnHeight(float lastHeight)
+    {
+        return lastHeight + Random.Range(minPlatformInterval, maxPlatformInterval);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        spawnTimer -= Time.deltaTime;
-        if (spawnTimer < 0)
+        var spawnerHeight = transform.position.y;
+        while (spawnerHeight > nextSpawnHeight)
         {
-            spawnTimer += Random.Range(minPlatformInterval, maxPlatformInterval);
-
-            var platform = FindFreePlatform();
             var width = Random.Range(minPlatformWidth, maxPlatformWidth);
-            platform.SetActive(true);
-            platform.rigidbody2D.velocity = new Vector2(0, -scrollSpeed);
             columnIdx = GetRandomAdjacentColumn(columnIdx);
-            platform.transform.position = spawnColumns[columnIdx].position;
-            if (!ShouldFlip())
-            {
-                platform.transform.localScale = new Vector3(width, platformHeight, 0f);
-            }
-            else
-            {
-                platform.transform.localScale = new Vector3(platformHeight, width, 0f);
-            } 
+            var pos = spawnColumns[columnIdx].position;
+            pos.y = nextSpawnHeight;
+            var flip = ShouldFlip();
+            SpawnPlatform(pos, width, flip);
+            nextSpawnHeight = GetNextSpawnHeight(nextSpawnHeight);
         }
 	}
 
