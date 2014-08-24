@@ -68,6 +68,8 @@ public class Damagable : MonoBehaviour {
         {
             updateBar = false;
         }
+
+        healthBar.gameObject.SetActive(currentHealth < maxHealth);
     }
 
     public void ApplyDamage(int points)
