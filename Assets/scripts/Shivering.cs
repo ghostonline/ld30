@@ -12,12 +12,8 @@ public class Shivering : MonoBehaviour {
 	void Start () {
         basePosition = transform.localPosition;
         targetPosition = selectRandomDeviationTarget();
+        enabled = false;
 	}
-
-    void OnEnable()
-    {
-        transform.localPosition = selectRandomDeviationTarget();
-    }
 
     void OnDisable()
     {
