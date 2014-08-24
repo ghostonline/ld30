@@ -6,6 +6,7 @@ public class BombAI : MonoBehaviour {
     public Shivering shiver;
     public Damagable health;
     public float shiverTime;
+    public ParticleSystem explosionSystem;
 
     float shiverTimeout;
 
@@ -15,9 +16,15 @@ public class BombAI : MonoBehaviour {
         if (shiverTimeout < 0)
         {
             shiver.enabled = false;
+            if (health.currentHealth <= 0)
+            {
+                explosionSystem.transform.position = transform.position;
+                explosionSystem.Play();
+                gameObject.SetActive(false);
+            }
         }
 
-        if (health.WasHitInLastFrame())
+        if (health.WasHitInLastFrame() && health.currentHealth >= 0)
         {
             shiver.enabled = true;
             shiverTimeout = shiverTime;

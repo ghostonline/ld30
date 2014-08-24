@@ -227,6 +227,7 @@ MonoBehaviour:
   shiver: {fileID: 11400004}
   health: {fileID: 11400002}
   shiverTime: .25
+  explosionSystem: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
