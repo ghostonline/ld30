@@ -9,11 +9,12 @@ public class Shivering : MonoBehaviour {
     Vector3 basePosition;
     Vector3 targetPosition;
 
-	void Start () {
+    void Start()
+    {
         basePosition = transform.localPosition;
         targetPosition = selectRandomDeviationTarget();
         enabled = false;
-	}
+    }
 
     void OnDisable()
     {
