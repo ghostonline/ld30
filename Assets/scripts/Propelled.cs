@@ -11,9 +11,4 @@ public class Propelled : MonoBehaviour {
         var angle = direction.position - transform.position;
         rigidbody2D.velocity = angle.normalized * speed;
 	}
-
-    void OnTriggerEnter2D(Collider2D coll)
-    {
-        gameObject.SetActive(false);
-    }
 }
