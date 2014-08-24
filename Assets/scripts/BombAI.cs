@@ -6,7 +6,7 @@ public class BombAI : MonoBehaviour {
     public Shivering shiver;
     public Damagable health;
     public float shiverTime;
-    public ParticleSystem explosionSystem;
+    public MultiEmitter explosionSystem;
 
     float shiverTimeout;
 
