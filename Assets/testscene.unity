@@ -290,6 +290,7 @@ MonoBehaviour:
   - {fileID: 1459069760}
   - {fileID: 1299556816}
   groundFloor: {fileID: 1771061033}
+  groundFloorWidth: 6000
 --- !u!114 &435734552
 MonoBehaviour:
   m_ObjectHideFlags: 0

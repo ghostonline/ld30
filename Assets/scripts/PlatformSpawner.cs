@@ -14,6 +14,7 @@ public class PlatformSpawner : MonoBehaviour {
     public float flipChance = 0.3f;
     public Transform[] spawnColumns;
     public Transform groundFloor;
+    public float groundFloorWidth;
 
     GameObject[] platforms;
     float nextSpawnHeight;
@@ -37,7 +38,7 @@ public class PlatformSpawner : MonoBehaviour {
             platforms[ii] = child;
         }
 
-        SpawnPlatform(groundFloor.position, maxPlatformWidth, false);
+        SpawnPlatform(groundFloor.position, groundFloorWidth, false);
         nextSpawnHeight = GetNextSpawnHeight(groundFloor.position.y);
 	}
 
