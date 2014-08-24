@@ -16,6 +16,7 @@ public class Movable : MonoBehaviour {
     public CollideTrigger rightWallJumpLock;
 
     public GameObject[] jumpLocks;
+    public GameObject[] headLocks;
 
     int jumpTimeout;
     int lastMinuteJump;
@@ -95,6 +96,11 @@ public class Movable : MonoBehaviour {
                 wallJumpPrimed = false;
             }
 
+            if (HasHitHead())
+            {
+                jumpTimeout = 0;
+            }
+            
             if (jumpTimeout > 0)
             {
                 velocity.y = jumpVelocity;
@@ -105,12 +111,12 @@ public class Movable : MonoBehaviour {
         rigidbody2D.velocity = velocity;
 	}
 
-    bool IsOnGround()
+    static bool TestCollisions(GameObject[] objs)
     {
         var pos2D = Vector2.zero;
-        foreach (var jumpLock in jumpLocks)
+        foreach (var obj in objs)
         {
-            var pos = jumpLock.transform.position;
+            var pos = obj.transform.position;
             pos2D.x = pos.x;
             pos2D.y = pos.y;
             var result = Physics2D.Raycast(pos2D, Vector2.zero);
@@ -119,8 +125,18 @@ public class Movable : MonoBehaviour {
                 return true;
             }
         }
-
+        
         return false;
+    }
+
+    bool IsOnGround()
+    {
+        return TestCollisions(jumpLocks);
+    }
+
+    bool HasHitHead()
+    {
+        return TestCollisions(headLocks);
     }
 
     bool IsInDeadZone(float value)
