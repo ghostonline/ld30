@@ -12,6 +12,7 @@ GameObject:
   - 114: {fileID: 11400010}
   - 50: {fileID: 5000006}
   - 61: {fileID: 6100006}
+  - 114: {fileID: 11400012}
   m_Layer: 10
   m_Name: Bullet
   m_TagString: Untagged
@@ -727,6 +728,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 30
   direction: {fileID: 400034}
+--- !u!114 &11400012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ea2d334fdd19248a0d7ea909c3da18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

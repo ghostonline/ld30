@@ -36,9 +36,9 @@ public class Damagable : MonoBehaviour {
         var diff = healthBar.value - desiredValue;
         if (!Mathf.Approximately(diff, 0f))
         {
-            if (diff > 0)
+            if (Mathf.Sign(diff) > 0)
             {
-                healthBar.value = Mathf.Min(barDecreaseSpeed * Time.deltaTime, diff);
+                healthBar.value -= Mathf.Min(barDecreaseSpeed * Time.deltaTime, diff);
             }
             else
             {
@@ -51,7 +51,7 @@ public class Damagable : MonoBehaviour {
         }
 	}
 
-    void ApplyDamage(int points)
+    public void ApplyDamage(int points)
     {
         currentHealth -= points;
         updateBar = true;

@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarAnchor: {fileID: 400004}
   barTemplate: {fileID: 11400000, guid: ccd41a0afd9cbf545b38eedc7bfd93d0, type: 2}
-  barDecreaseSpeed: .100000001
+  barDecreaseSpeed: 1
   maxHealth: 3
   currentHealth: 3
 --- !u!1001 &100100000
