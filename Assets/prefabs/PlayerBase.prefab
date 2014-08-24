@@ -593,7 +593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 400004}
   fireDirection: {fileID: 400002}
-  fireRate: 0
+  fireRate: .200000003
   bulletTemplate: {fileID: 100000}
   poolParent: {fileID: 0}
   poolSize: 100
@@ -633,7 +633,7 @@ MonoBehaviour:
   jumpVelocity: 15
   horizontalVelocity: 15
   horizontalAccelleration: .200000003
-  wallKickVelocity: 15
+  wallKickVelocity: 20
   maxJumpFrames: 20
   lastMinuteJumpTimeout: 5
   axisDeadzone: .00100000005
