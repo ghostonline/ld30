@@ -18,7 +18,7 @@ public class WheelSpawner : MonoBehaviour {
         }
 	}
 	
-	void Spawn () {
+	public void Spawn () {
         var pos = spawnLevel.position;
         var platform = platforms.GetFirstPlatformHigherThanPosition(pos);
         if (platform == null) { Debug.LogWarning("Could not find platform"); return; }

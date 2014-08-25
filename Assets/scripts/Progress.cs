@@ -15,7 +15,9 @@ public class Progress : MonoBehaviour {
     bool grinderTrigger;
 
     public float seekerSpawnInterval;
-    public float bombHeightInterval = 50;
+    public float bombHeightInterval = 100;
+    public float wheelSpawnInterval = 5;
+    public float wheelHeightTrigger = 50;
 
     int[] seekerHeights = {
         150,
@@ -27,6 +29,7 @@ public class Progress : MonoBehaviour {
     int seekerSpawnRate;
 
     float targetBombHeight;
+    float wheelSpawnTimeout;
 
     // Use this for initialization
 	void Start () {
@@ -59,6 +62,16 @@ public class Progress : MonoBehaviour {
         {
             bombs.Spawn();
             targetBombHeight += bombHeightInterval;
+        }
+
+        if (playerPosY > wheelHeightTrigger)
+        {
+            wheelSpawnTimeout -= Time.deltaTime;
+            if (wheelSpawnTimeout < 0)
+            {
+                wheels.Spawn();
+                wheelSpawnTimeout += wheelSpawnInterval;
+            }
         }
 	}
 }

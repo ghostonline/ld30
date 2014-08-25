@@ -4004,12 +4004,14 @@ MonoBehaviour:
   grinder: {fileID: 859229953}
   seekers: {fileID: 717957750}
   bombs: {fileID: 356648614}
-  wheels: {fileID: 0}
+  wheels: {fileID: 1550468782}
   player: {fileID: 1394616901}
   grinderAccelerateHeight: 200
   grinderSpeed: 5
   seekerSpawnInterval: 10
   bombHeightInterval: 50
+  wheelSpawnInterval: 5
+  wheelHeightTrigger: 50
 --- !u!4 &1813683995
 Transform:
   m_ObjectHideFlags: 0
