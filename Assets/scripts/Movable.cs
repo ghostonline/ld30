@@ -27,6 +27,7 @@ public class Movable : MonoBehaviour {
     bool wallHugLeft;
     bool wallHugRight;
     bool wallJumpPrimed;
+    bool resetPrimed;
 
 	void FixedUpdate () {
         var velocity = rigidbody2D.velocity;
@@ -109,6 +110,16 @@ public class Movable : MonoBehaviour {
         }
 
         rigidbody2D.velocity = velocity;
+
+        if (Input.GetAxis("Reset") > 0)
+        {
+            resetPrimed = true;
+        }
+        else if (resetPrimed)
+        {
+            resetPrimed = false;
+            Application.LoadLevel("testscene");
+        }
 	}
 
     static bool TestCollisions(GameObject[] objs)
