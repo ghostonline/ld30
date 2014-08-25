@@ -24,6 +24,15 @@ public class SeekerAI : MonoBehaviour {
         idleRotation = rotationAnimator.rotation;
         lockTimer = lockDuration;
 	}
+
+    public void SetTarget(Vector3 target)
+    {
+        targetPosition = target;
+        var direction = targetPosition - transform.position;
+        mover.velocity = direction.normalized * speed;
+        moving = true;
+        lockTimer = lockDuration;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -32,12 +41,8 @@ public class SeekerAI : MonoBehaviour {
             lockTimer -= Time.deltaTime;
             if (lockTimer < 0)
             {
-                lockTimer += lockDuration;
                 var player = GameObject.FindGameObjectWithTag(PlayerTag);
-                targetPosition = player.transform.position;
-                var direction = targetPosition - transform.position;
-                mover.velocity = direction.normalized * speed;
-                moving = true;
+                SetTarget(player.transform.position);
             }
             
             var lockProgressValue = lockProgress.Evaluate(1 - lockTimer / lockDuration);
