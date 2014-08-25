@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400004}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: RotationAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ GameObject:
   - 61: {fileID: 6100000}
   - 114: {fileID: 11400006}
   - 50: {fileID: 5000000}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: Grinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   - 95: {fileID: 9500000}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400006}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: RetractAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400008}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: PlayerTriggerHeight
   m_TagString: Untagged
   m_Icon: {fileID: -2065832391, guid: 0000000000000000d000000000000000, type: 0}
@@ -104,7 +104,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.3210201, y: -4, z: 0}
+  m_LocalPosition: {x: -28.3210201, y: 30, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -271,7 +271,7 @@ MonoBehaviour:
   playerTriggerHeight: {fileID: 400008}
   player: {fileID: 0}
   activateDuration: 1
-  raiseSpeed: 5
+  raiseSpeed: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
