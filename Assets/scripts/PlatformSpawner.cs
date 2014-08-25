@@ -17,6 +17,7 @@ public class PlatformSpawner : MonoBehaviour {
     public float groundFloorWidth;
 
     GameObject[] platforms;
+    bool[] horizontal;
     float nextSpawnHeight;
     int poolIdx;
     int columnIdx;
@@ -26,6 +27,7 @@ public class PlatformSpawner : MonoBehaviour {
         scrollSpeed = Mathf.Abs(scrollSpeed);
         if (poolSize <= 0) { poolSize = 10; }
         platforms = new GameObject[poolSize];
+        horizontal = new bool[poolSize];
         var poolParentTransform = platformTemplate.transform.parent;
         var digits = Mathf.CeilToInt(Mathf.Log10(poolSize));
         platformTemplate.SetActive(false);
@@ -44,11 +46,13 @@ public class PlatformSpawner : MonoBehaviour {
 
     void SpawnPlatform(Vector3 pos, float width, bool flip)
     {
-        var platform = FindFreePlatform();
+        var platformIdx = FindFreePlatform();
+        var platform = platforms[platformIdx];
         platform.SetActive(true);
         platform.transform.position = pos;
         var scale = Vector3.zero;
-        if (!flip) { scale = new Vector3(width, platformHeight, 0f); }
+        horizontal[platformIdx] = !flip;
+        if (!flip) { scale = new Vector3(width, platformHeight, 0f);}
         else { scale = new Vector3(platformHeight, width, 0f); } 
         platform.transform.localScale = scale;
     }
@@ -60,7 +64,7 @@ public class PlatformSpawner : MonoBehaviour {
         for (int ii = 0; ii < poolSize; ++ii)
         {
             var platform = platforms[ii];
-            if (!platform.activeSelf) { continue; }
+            if (!platform.activeSelf || !horizontal[ii]) { continue; }
             var distance = platform.transform.position.y - pos.y;
             if (distance > 0 && distance < nearestDistance)
             {
@@ -125,7 +129,7 @@ public class PlatformSpawner : MonoBehaviour {
         return Random.value < flipChance;
     }
 
-    GameObject FindFreePlatform()
+    int FindFreePlatform()
     {
         // Start running from the next in line
         poolIdx = (poolIdx + 1) % poolSize;
@@ -135,12 +139,12 @@ public class PlatformSpawner : MonoBehaviour {
             if (!platforms[idx].activeSelf)
             {
                 poolIdx = idx;
-                return platforms[idx];
+                break;
             }
         }
 
         // Just return the oldest one
-        return platforms[poolIdx];
+        return poolIdx;
     }
         
 
