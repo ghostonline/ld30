@@ -29,6 +29,12 @@ public class Damagable : MonoBehaviour {
 
         if (barDecreaseSpeed <= 0) { barDecreaseSpeed = 0.1f; }
 	}
+
+    void OnEnable()
+    {
+        currentHealth = maxHealth;
+        updateBar = true;
+    }
 	
 	// Update is called once per frame
 	void Update () {
