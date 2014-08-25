@@ -53,6 +53,30 @@ public class PlatformSpawner : MonoBehaviour {
         platform.transform.localScale = scale;
     }
 
+    public GameObject GetFirstPlatformHigherThanPosition(Vector3 pos)
+    {
+        var nearestIdx = -1;
+        var nearestDistance = float.PositiveInfinity;
+        for (int ii = 0; ii < poolSize; ++ii)
+        {
+            var platform = platforms[ii];
+            if (!platform.activeSelf) { continue; }
+            var distance = platform.transform.position.y - pos.y;
+            if (distance > 0 && distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestIdx = ii;
+            }
+        }
+
+        if (nearestIdx > -1)
+        {
+            return platforms[nearestIdx];
+        }
+
+        return null;
+    }
+
     float GetNextSpawnHeight(float lastHeight)
     {
         return lastHeight + Random.Range(minPlatformInterval, maxPlatformInterval);
