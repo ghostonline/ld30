@@ -15,19 +15,22 @@ public class Progress : MonoBehaviour {
     bool grinderTrigger;
 
     public float seekerSpawnInterval;
+    public float bombHeightInterval = 50;
 
     int[] seekerHeights = {
-        120,
-        200,
-        300,
+        150,
+        500,
+        1000,
     };
     int seekerIdx;
     float seekerSpawnTimeout;
     int seekerSpawnRate;
 
-	// Use this for initialization
+    float targetBombHeight;
+
+    // Use this for initialization
 	void Start () {
-	
+        targetBombHeight = bombHeightInterval;
 	}
 	
 	// Update is called once per frame
@@ -50,6 +53,12 @@ public class Progress : MonoBehaviour {
         {
             seekerSpawnTimeout = seekerSpawnInterval / seekerSpawnRate;
             seekers.Spawn(player.transform.position);
+        }
+
+        if (playerPosY > targetBombHeight)
+        {
+            bombs.Spawn();
+            targetBombHeight += bombHeightInterval;
         }
 	}
 }

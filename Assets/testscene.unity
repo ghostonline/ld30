@@ -4003,12 +4003,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grinder: {fileID: 859229953}
   seekers: {fileID: 717957750}
-  bombs: {fileID: 0}
+  bombs: {fileID: 356648614}
   wheels: {fileID: 0}
   player: {fileID: 1394616901}
   grinderAccelerateHeight: 200
   grinderSpeed: 5
   seekerSpawnInterval: 10
+  bombHeightInterval: 50
 --- !u!4 &1813683995
 Transform:
   m_ObjectHideFlags: 0
